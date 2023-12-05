@@ -1,43 +1,49 @@
 package com.example.alertapp;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.text.Layout;
-import android.view.View;
-import android.widget.Button;
-
 import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RClickInterface {
-    ArrayList<Records> record=new ArrayList<>();
-    Records records;
-    Context context=this;
-    int imaj;
-    RecyclerView recyclerView;
-    RecylerCustomAdapter adapter;
+public class MainActivity extends AppCompatActivity {
+    private CustomAdapter customAdapter;
+    private RecyclerView recyclerView;
+    public static  DataSource source;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);;
         setContentView(R.layout.activity_main);
-        recyclerView=findViewById(R.id.recyleView);
-        imaj=R.drawable.baseline_alarm_24;
-        records=new Records("Çalar Saat","saat");record.add(records);
-        adapter=new RecylerCustomAdapter(context,this,record);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-    }
+        source=new DataSource(this);
+        source.openDb();
+        Button addButton =(Button) findViewById(R.id.addButton);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        customAdapter = new CustomAdapter(this, null);
+        recyclerView.setAdapter(customAdapter);
+        loadData();
 
-    @Override
-    public void onItemClick(int position) {
 
-    }
-
-    @Override
-    public void onItemLongClick(int position) {
-
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainActivity.this,AddAlert.class);
+                startActivity(intent);
+            }
+        });
+}
+    private void loadData() {
+        Cursor cursor = source.getData();
+        customAdapter.swapCursor(cursor);
     }
 }

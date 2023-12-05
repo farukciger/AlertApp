@@ -22,8 +22,8 @@
         android:id="@+id/alertButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="424dp"
-        android:layout_marginEnd="208dp"
+        android:layout_marginTop="464dp"
+        android:layout_marginEnd="156dp"
         android:text="Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -32,8 +32,8 @@
         android:id="@+id/alertvie"
         android:layout_width="363dp"
         android:layout_height="261dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="72dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_warning_24" />
