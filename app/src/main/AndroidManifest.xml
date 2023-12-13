@@ -12,6 +12,9 @@
         android:theme="@style/Theme.AlertApp"
         tools:targetApi="31">
         <activity
+            android:name=".UptadeAlert"
+            android:exported="false" />
+        <activity
             android:name=".AlertTime"
             android:exported="false" />
         <activity

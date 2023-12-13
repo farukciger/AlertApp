@@ -24,6 +24,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
+
+        <TextView
+            android:id="@+id/txtid"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="2dp"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/aciklama"
             android:layout_width="wrap_content"

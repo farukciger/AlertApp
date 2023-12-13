@@ -19,7 +19,8 @@ public class Alerts {
     public String toString() {
         return
                 "baslik='" + baslik + "\n" +
-                "aciklama='" + aciklama + "\n"
+                "aciklama='" + aciklama + "\n"+
+                "id="+id
                 ;
     }
 

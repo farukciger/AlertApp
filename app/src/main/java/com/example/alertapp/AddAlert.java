@@ -13,13 +13,15 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 
 public class AddAlert extends AppCompatActivity {
-    public String time;
-    public String date;
+    public static String time;
+    public static String text;
+    public static String subText;
+    public static String date;
     private Button dateButton;
     private Button timeButton;
     private Button add;
-    public EditText baslik;
-    public EditText aciklama;
+    public  EditText baslik;
+    public  EditText aciklama;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +31,8 @@ public class AddAlert extends AppCompatActivity {
         add=findViewById(R.id.addAlert);
         baslik=findViewById(R.id.baslik);
         aciklama=findViewById(R.id.aciklama);
+        baslik.setText(text);
+        aciklama.setText(subText);
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,8 +48,8 @@ public class AddAlert extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String text=baslik.getText().toString();
-                String subText=aciklama.getText().toString();
+                 text=baslik.getText().toString();
+                 subText=aciklama.getText().toString();
                 String t=time;
                 String d=date;
                 Alerts alerts=new Alerts(text,subText,d,t);
