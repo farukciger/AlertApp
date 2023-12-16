@@ -1,4 +1,4 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+
 
 public class AlertTime extends AppCompatActivity {
     private Button alertButton;

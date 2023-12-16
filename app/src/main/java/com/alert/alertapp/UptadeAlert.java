@@ -1,4 +1,4 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,16 +7,22 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
+
 
 public class UptadeAlert extends AppCompatActivity {
         public static String utime;
         public static String utext;
         public static String usubText;
         public static String udate;
+        public static Spinner usecenek;
+        public static int uLeftTime;
         private Button udateButton;
         private Button utimeButton;
         private Button uptade;
@@ -26,6 +32,7 @@ public class UptadeAlert extends AppCompatActivity {
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_uptade_alert);
+            usecenek=findViewById(R.id.usecenek);
             udateButton=(Button) findViewById(R.id.udateButton);
             utimeButton=findViewById(R.id.utimeButton);
             uptade=findViewById(R.id.uptadeAllert);
@@ -35,6 +42,36 @@ public class UptadeAlert extends AppCompatActivity {
             utimeButton.setText(utime);
             ubaslik.setText(utext);
             uaciklama.setText(usubText);
+            ArrayAdapter<String > adaptr=new ArrayAdapter<>(this, androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,AddAlert.secenekler);
+            usecenek.setAdapter(adaptr);
+            usecenek.setSelection(uLeftTime);
+            usecenek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    switch (i){
+                        case 0:
+                            uLeftTime=0;
+                            break;
+                        case 1:
+                            uLeftTime=1;
+                            break;
+                        case 2:
+                            uLeftTime=2;
+                            break;
+                        case 3:
+                            uLeftTime=3;
+                            break;
+                        case 4:
+                            uLeftTime=4;
+                            break;
+                    }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
             udateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -50,12 +87,11 @@ public class UptadeAlert extends AppCompatActivity {
             uptade.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    String key=MainActivity.uId;
                     utext=ubaslik.getText().toString();
                     usubText=uaciklama.getText().toString();
                     String t=utime;
                     String d=udate;
-                    DataSource.updateValueForKey(key);
+                    getContentResolver().update(MainActivity.CONTENT_URI,null,null,null);
                     MainActivity.loadData();
                     Intent intent=new Intent(UptadeAlert.this,MainActivity.class);
                     startActivity(intent);

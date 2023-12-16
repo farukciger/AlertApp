@@ -1,42 +1,31 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class MainActivity extends AppCompatActivity implements RCClickInterface {
     private static CustomAdapter customAdapter;
     private RecyclerView recyclerView;
-    public static  DataSource source;
+    public static  AlertProvider source;
     public static String uId;
+    public final static Uri CONTENT_URI=AlertProvider.CONTENT_URI;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);;
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        source=new DataSource(this);
+        AlertProvider.myDb=new DataBase(this);
+        source=new AlertProvider(this);
         source.openDb();
         Button addButton =(Button) findViewById(R.id.addButton);
         recyclerView = findViewById(R.id.recyclerView);
@@ -48,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements RCClickInterface 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                    AddAlert.subText=null;
+                    AddAlert.text=null;
                 Intent intent=new Intent(MainActivity.this,AddAlert.class);
                 startActivity(intent);
             }
@@ -64,15 +55,16 @@ public class MainActivity extends AppCompatActivity implements RCClickInterface 
 
     @Override
     public void onItemClick(String content) {
+        String[] columns = {"baslik,aciklama,tarih,saat,sure"};
         uId=content;
-        DataSource.query(content);
+        getContentResolver().query(CONTENT_URI,columns,null,null,null);
         Intent intent=new Intent(MainActivity.this,UptadeAlert.class);
         startActivity(intent);
     }
 
     @Override
     public void onItemLongClick(String content) throws InterruptedException {
-        DataSource.removeAlert(content);
+        getContentResolver().delete(CONTENT_URI,"id="+content,null);
         loadData();
 
     }

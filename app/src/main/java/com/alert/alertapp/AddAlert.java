@@ -1,24 +1,37 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
 
 public class AddAlert extends AppCompatActivity {
     public static String time;
     public static String text;
     public static String subText;
     public static String date;
+    public static Spinner secenek;
+    public int RINGTONE_PICKER_REQUEST=1;
+    public static int leftTime;
+    public static String[] secenekler={"Hatırlatma Zamanı Seçin","10 Dakika Önce","20 Dakika Önce","30 Dakika Önce","40 Dakika Önce"};
     private Button dateButton;
     private Button timeButton;
+    private Button ringToneButton;
     private Button add;
     public  EditText baslik;
     public  EditText aciklama;
@@ -26,6 +39,8 @@ public class AddAlert extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_alert);
+        secenek=findViewById(R.id.secenek);
+        ringToneButton=findViewById(R.id.ringTone);
         dateButton=findViewById(R.id.button2);
         timeButton=findViewById(R.id.timeButton);
         add=findViewById(R.id.addAlert);
@@ -33,6 +48,44 @@ public class AddAlert extends AppCompatActivity {
         aciklama=findViewById(R.id.aciklama);
         baslik.setText(text);
         aciklama.setText(subText);
+        ArrayAdapter<String > adapter=new ArrayAdapter<>(this, androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,secenekler);
+        secenek.setAdapter(adapter);
+        secenek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view,  int i, long l) {
+                switch (i){
+                    case 0:
+                        leftTime=0;
+                        break;
+                    case 1:
+                       leftTime=1;
+                       break;
+                    case 2:
+                        leftTime=2;
+                        break;
+                    case 3:
+                        leftTime=3;
+                        break;
+                    case 4:
+                        leftTime=4;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        ringToneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+                startActivityForResult(intent, RINGTONE_PICKER_REQUEST);
+
+
+            }
+        });
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,9 +105,8 @@ public class AddAlert extends AppCompatActivity {
                  subText=aciklama.getText().toString();
                 String t=time;
                 String d=date;
-                Alerts alerts=new Alerts(text,subText,d,t);
-                MainActivity.source.openDb();
-                MainActivity.source.addAlert(alerts);
+                Uri uri=getContentResolver().insert(MainActivity.CONTENT_URI,AlertProvider.val);
+                //Toast.makeText(AddAlert.this, ""+uri, Toast.LENGTH_SHORT).show();
                 Intent ınten1=new Intent(AddAlert.this,MainActivity.class);
                 startActivity(ınten1);
             }

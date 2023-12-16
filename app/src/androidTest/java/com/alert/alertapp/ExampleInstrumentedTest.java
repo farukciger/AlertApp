@@ -1,4 +1,4 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import android.content.Context;
 

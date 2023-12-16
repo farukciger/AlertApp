@@ -1,4 +1,4 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 public interface RCClickInterface {
     void onItemClick(String content);

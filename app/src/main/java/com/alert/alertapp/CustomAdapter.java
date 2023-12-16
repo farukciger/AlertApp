@@ -1,7 +1,6 @@
-package com.example.alertapp;
+package com.alert.alertapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
-import java.util.ArrayList;
+
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private Context context;
@@ -19,7 +18,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private Cursor mCursor;
     public CustomAdapter(Context context, Cursor cursor,RCClickInterface rcClickInterface) {
         this.clickInterface=rcClickInterface;
-        this.imaj=R.drawable.baseline_alarm_24;
+        this.imaj= R.drawable.baseline_alarm_24;
         this.context = context;
     }
 

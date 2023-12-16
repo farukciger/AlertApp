@@ -1,4 +1,6 @@
-package com.example.alertapp;
+package com.alert.alertapp;
+
+
 
 public class Alerts {
     private int imaj;
@@ -6,15 +8,26 @@ public class Alerts {
     private String aciklama;
     private String tarih;
     private String saat;
+    private int leftTime;
     private long id;
 
-    public Alerts(String baslik, String aciklama, String tarih, String saat) {
-        this.imaj=R.drawable.baseline_alarm_24;
+    public Alerts(String baslik, String aciklama, String tarih, String saat,int lefTime) {
+        this.imaj= R.drawable.baseline_alarm_24;
         this.baslik = baslik;
         this.aciklama = aciklama;
         this.tarih = tarih;
         this.saat = saat;
+        this.leftTime=lefTime;
     }
+
+    public int getLeftTime() {
+        return leftTime;
+    }
+
+    public void setLeftTime(int leftTime) {
+        this.leftTime = leftTime;
+    }
+
     @Override
     public String toString() {
         return
