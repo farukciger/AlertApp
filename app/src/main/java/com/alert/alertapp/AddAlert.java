@@ -1,14 +1,15 @@
 package com.alert.alertapp;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,11 +19,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Calendar;
+import java.util.Locale;
 public class AddAlert extends AppCompatActivity {
+    private static final int PICK_AUDIO_REQUEST = 1;
+    private Uri selectedAudioUri;
+    public static String ringTone;
     public static String time;
+    public static String realDateTime;
     public static String text;
+    static LocalTime time1;
     public static String subText;
     public static String date;
     public static Spinner secenek;
@@ -71,21 +79,11 @@ public class AddAlert extends AppCompatActivity {
                         break;
                 }
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
-        ringToneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-                startActivityForResult(intent, RINGTONE_PICKER_REQUEST);
-
-
-            }
-        });
+        ringToneButton.setOnClickListener(view ->openAudioPicker() );
         dateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,38 +97,63 @@ public class AddAlert extends AppCompatActivity {
             }
         });
         add.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                  text=baslik.getText().toString();
                  subText=aciklama.getText().toString();
                 String t=time;
                 String d=date;
+                time1=time1.minusMinutes(leftTime*10);
+                realDateTime=d+" "+time1;
+                Toast.makeText(AddAlert.this, realDateTime, Toast.LENGTH_SHORT).show();
                 Uri uri=getContentResolver().insert(MainActivity.CONTENT_URI,AlertProvider.val);
-                //Toast.makeText(AddAlert.this, ""+uri, Toast.LENGTH_SHORT).show();
                 Intent ınten1=new Intent(AddAlert.this,MainActivity.class);
                 startActivity(ınten1);
             }
         });
     }
+    final Calendar currentDate = Calendar.getInstance();
     private void openDateDialog(){
         DatePickerDialog dialog=new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                date= year +"."+ (month + 1) +"."+ day;
-                dateButton.setText(date);
+                currentDate.set(year,month,day);
+                updateSelectedDate();
             }
         }, 2023, 12, 1);
         dialog.show();
     }
+    private void updateSelectedDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        String formattedDate = sdf.format(currentDate.getTime());
+        date= formattedDate;
+        dateButton.setText(date);
+    }
     private void openTimeDiaolog(){
         TimePickerDialog dialog=new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onTimeSet(TimePicker timePicker, int hours, int minute) {
-                time= hours +":"+ minute;
+                time1=LocalTime.of(hours,minute);
+                String formattedTime = String.format("%02d:%02d", hours, minute);
+                time= formattedTime;
                 timeButton.setText(time);
             }
         }, 10, 3, true);
         dialog.show();
     }
-
+    private void openAudioPicker() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, PICK_AUDIO_REQUEST);
+        ringToneButton.setText(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString());
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK && data != null) {
+            selectedAudioUri = data.getData();
+            ringTone=selectedAudioUri.toString();
+        }
+    }
 }

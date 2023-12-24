@@ -1,5 +1,6 @@
 package com.alert.alertapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         return mCursor.getCount();
     }
+    @SuppressLint("NotifyDataSetChanged")
     public void swapCursor(Cursor newCursor) {
         if (mCursor != null) {
             mCursor.close();

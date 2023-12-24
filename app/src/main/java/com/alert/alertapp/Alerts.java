@@ -4,6 +4,7 @@ package com.alert.alertapp;
 
 public class Alerts {
     private int imaj;
+    public String ringTone;
     private String baslik;
     private String aciklama;
     private String tarih;
@@ -11,13 +12,14 @@ public class Alerts {
     private int leftTime;
     private long id;
 
-    public Alerts(String baslik, String aciklama, String tarih, String saat,int lefTime) {
+    public Alerts(String baslik, String aciklama, String tarih, String saat,int lefTime,String ringTone) {
         this.imaj= R.drawable.baseline_alarm_24;
         this.baslik = baslik;
         this.aciklama = aciklama;
         this.tarih = tarih;
         this.saat = saat;
         this.leftTime=lefTime;
+        this.ringTone=ringTone;
     }
 
     public int getLeftTime() {
@@ -79,6 +81,14 @@ public class Alerts {
 
     public String getSaat() {
         return saat;
+    }
+
+    public String getRingTone() {
+        return ringTone;
+    }
+
+    public void setRingTone(String ringTone) {
+        this.ringTone = ringTone;
     }
 
     public void setSaat(String saat) {
