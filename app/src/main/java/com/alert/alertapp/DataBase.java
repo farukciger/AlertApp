@@ -1,13 +1,10 @@
 package com.alert.alertapp;
-
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 public class DataBase extends SQLiteOpenHelper {
 
-
+/*Burada SQLite Databasei kullanarak veri tabanı oluşturuyoruz*/
     public DataBase(Context c){
 
         super(c,"alarm",null,1);
@@ -25,13 +22,5 @@ public class DataBase extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + "alerts1");
         onCreate(sqLiteDatabase);
         sqLiteDatabase.execSQL("INSERT INTO " + "alerts1" + " SELECT * FROM backup_table");
-    }
-    public  boolean isDataExist(String data) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + "alarm" + " WHERE " + "realtime" + " = ?";
-        Cursor cursor = db.rawQuery(query, new String[]{data});
-        boolean exist = cursor.getCount() > 0;
-        cursor.close();
-        return exist;
     }
 }

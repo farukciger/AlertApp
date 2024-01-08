@@ -8,7 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +23,10 @@ import java.time.LocalTime;
 import java.util.Calendar;
 import java.util.Locale;
 public class UptadeAlert extends AppCompatActivity {
+    /*Burdaki Class AddAlert classı ile tamamen aynı
+    * sadece farklı olarak değişkenlerin başına uptade edildiğini ifade etmek için
+    * u ekledik kullanıcı alarma tıkladğında değerleri değiştirdiği zaman bu değişkenler
+    * sayesinde alarmı güncelliyoruz.*/
     private static final int PICK_AUDIO_REQUEST = 1;
     private Uri selectedAudioUri;
         public static String utime;
@@ -34,6 +38,7 @@ public class UptadeAlert extends AppCompatActivity {
         public static String usubText;
         public static String uRealTime;
         public static String udate;
+        public static boolean isUptade;
         public static Spinner usecenek;
         public static int uLeftTime;
         private Button udateButton;
@@ -57,10 +62,11 @@ public class UptadeAlert extends AppCompatActivity {
             utimeButton.setText(utime);
             ubaslik.setText(utext);
             uaciklama.setText(usubText);
-            uRingToneButton.setText(uRingtone);
+            uRingToneButton.setText(AddAlert.getFileNameFromUri(this,Uri.parse(uRingtone)));
             ArrayAdapter<String > adaptr=new ArrayAdapter<>(this, androidx.constraintlayout.widget.R.layout.support_simple_spinner_dropdown_item,AddAlert.secenekler);
             usecenek.setAdapter(adaptr);
             usecenek.setSelection(uLeftTime);
+            isUptade=false;
             usecenek.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -110,20 +116,29 @@ public class UptadeAlert extends AppCompatActivity {
                     time1=time1.minusMinutes(uLeftTime*10);
                     String urealTime=time1.toString();
                     uRealTime=udate+" "+urealTime;
+                    if(TextUtils.isEmpty(utext))
+                        utext=uRealTime;
+                    if(!(MainActivity.isFutureAlarm(uRealTime)))
+                    //Alarm İleri bir tarihte değilse kurmuyor.
+                    {
+                        Toast.makeText(UptadeAlert.this, "Lütfen İleri Bir Tarih Seçiniz", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
                     Toast.makeText(UptadeAlert.this, uRealTime, Toast.LENGTH_SHORT).show();
                     getContentResolver().update(MainActivity.CONTENT_URI,null,null,null);
+                    isUptade=true;
                     MainActivity.loadData();
                     Intent intent=new Intent(UptadeAlert.this,MainActivity.class);
-                    startActivity(intent);
+                    startActivity(intent);}
 
                 }
             });
             uRingToneButton.setOnClickListener(view -> openAudioPicker());
         }
     private void openAudioPicker() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, PICK_AUDIO_REQUEST);
-        uRingToneButton.setText(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI.toString());
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("audio/*");
+        startActivityForResult(intent,PICK_AUDIO_REQUEST);
     }
 
     @Override
@@ -132,6 +147,7 @@ public class UptadeAlert extends AppCompatActivity {
         if (requestCode == PICK_AUDIO_REQUEST && resultCode == RESULT_OK && data != null) {
             selectedAudioUri = data.getData();
             uRingtone=selectedAudioUri.toString();
+            uRingToneButton.setText(AddAlert.getFileNameFromUri(this,selectedAudioUri));
         }
     }
     final Calendar currentDate = Calendar.getInstance();

@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+    /*Burdaki custom adapter RecylerViewdeki verileri istedğimiz formatta göstermek için yazıldı.
+    * Veri tabanındaki verileri ana ekranda göstercek.*/
     private Context context;
-    public static int alertId;
     int imaj;
     public static RCClickInterface clickInterface;
     private Cursor mCursor;

@@ -7,11 +7,26 @@
     tools:context=".AlertTime">
 
     <TextView
-        android:id="@+id/alertTimetxt"
-        android:layout_width="449dp"
-        android:layout_height="141dp"
-        android:textSize="16sp"
+        android:id="@+id/alertTimetxt1"
+        android:layout_width="254dp"
+        android:layout_height="59dp"
         android:gravity="left"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.141" />
+
+    <TextView
+        android:id="@+id/alertTimetxt"
+        android:layout_width="386dp"
+        android:layout_height="124dp"
+        android:gravity="left"
+        android:textColor="@color/black"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,10 +45,10 @@
 
     <ImageView
         android:id="@+id/alertvie"
-        android:layout_width="363dp"
-        android:layout_height="261dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="301dp"
+        android:layout_height="184dp"
+        android:layout_marginTop="136dp"
+        android:layout_marginEnd="52dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/baseline_warning_24" />

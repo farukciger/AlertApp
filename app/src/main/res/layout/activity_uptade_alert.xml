@@ -72,8 +72,8 @@
 
     <Button
         android:id="@+id/uringTone"
-        android:layout_width="410dp"
-        android:layout_height="50dp"
+        android:layout_width="408dp"
+        android:layout_height="68dp"
         android:background="@android:color/transparent"
         android:gravity="left"
         android:text="Zil Sesi Seçniz"

@@ -1,9 +1,5 @@
 package com.alert.alertapp;
-
-
-
 public class Alerts {
-    private int imaj;
     public String ringTone;
     private String baslik;
     private String aciklama;
@@ -11,23 +7,22 @@ public class Alerts {
     private String saat;
     private int leftTime;
     private long id;
+    private String realTime;
 
-    public Alerts(String baslik, String aciklama, String tarih, String saat,int lefTime,String ringTone) {
-        this.imaj= R.drawable.baseline_alarm_24;
+    public Alerts(String baslik, String aciklama, String tarih, String saat,int lefTime,String ringTone,String realTime) {
+        /*Bu Classımız Alarmın özelliklerini içeriyor*/
+        int imaj = R.drawable.baseline_alarm_24;
         this.baslik = baslik;
         this.aciklama = aciklama;
         this.tarih = tarih;
         this.saat = saat;
         this.leftTime=lefTime;
         this.ringTone=ringTone;
+        this.realTime=realTime;
     }
 
     public int getLeftTime() {
         return leftTime;
-    }
-
-    public void setLeftTime(int leftTime) {
-        this.leftTime = leftTime;
     }
 
     @Override
@@ -44,39 +39,17 @@ public class Alerts {
     }
 
     public void setId(long id) {
+
         this.id = id;
     }
-
-    public int getImaj() {
-        return imaj;
-    }
-
-    public void setImaj(int imaj) {
-        this.imaj = imaj;
-    }
-
     public String getBaslik() {
         return baslik;
     }
-
-    public void setBaslik(String baslik) {
-        this.baslik = baslik;
-    }
-
     public String getAciklama() {
         return aciklama;
     }
-
-    public void setAciklama(String aciklama) {
-        this.aciklama = aciklama;
-    }
-
     public String getTarih() {
         return tarih;
-    }
-
-    public void setTarih(String tarih) {
-        this.tarih = tarih;
     }
 
     public String getSaat() {
@@ -86,12 +59,8 @@ public class Alerts {
     public String getRingTone() {
         return ringTone;
     }
-
-    public void setRingTone(String ringTone) {
-        this.ringTone = ringTone;
+    public String getRealTime() {
+        return realTime;
     }
 
-    public void setSaat(String saat) {
-        this.saat = saat;
-    }
 }
